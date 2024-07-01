@@ -1,6 +1,6 @@
 namespace AIConnector.Application.Services.GPT;
 
-public interface IGPTService
+public interface IWorklogService
 {
     
 }
