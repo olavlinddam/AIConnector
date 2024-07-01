@@ -1,15 +1,15 @@
-using System.ComponentModel.Design;
-using AIConnector.Application.Services.Interfaces;
-using Microsoft.Extensions.Configuration;
+using AIConnector.Application.Services.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-namespace AIConnector.Application.Services.Startup;
+using AIConnector.Infrastructure.Startup;
+
+namespace AIConnector.Application.Startup;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services,
-        IConfiguration configuration)
+    public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddInfrastructure();
+        services.TryAddScoped<IWorklogService, WorklogService>();
+        return services;
     }
 }

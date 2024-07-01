@@ -1,6 +1,21 @@
-namespace AIConnector.Application.Services.GPT;
+using AIConnector.Application.DTOs;
+using AIConnector.Infrastructure.Handlers;
 
-public class WorklogService
+namespace AIConnector.Application.Services.Services;
+
+public class WorklogService : IWorklogService
 {
-    
+   private readonly IGPTHandler _gptHandler;
+
+   public WorklogService(IGPTHandler gptHandler)
+   {
+      _gptHandler = gptHandler;
+   }
+
+   public async Task<WorklogWebhook> UpdateWorklogDescription(WorklogWebhook worklogWebhook)
+   {
+      var updatedDescription = await _gptHandler.ProfessionalizeDescription(worklogWebhook.Description);
+      worklogWebhook.Description = updatedDescription;
+      return worklogWebhook;
+   }
 }

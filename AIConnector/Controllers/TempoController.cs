@@ -1,32 +1,26 @@
+using System.Text.Json;
+using AIConnector.Application.DTOs;
+using AIConnector.Application.Services.Services;
 using Microsoft.AspNetCore.Mvc;
-
 namespace AIConnector.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class TempoController : ControllerBase
+
+public class TempoController
 {
-    private static readonly string[] Summaries = new[]
-    {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+    private readonly IWorklogService _worklogService;
 
-    private readonly ILogger<TempoController> _logger;
-
-    public TempoController(ILogger<TempoController> logger)
+    public TempoController(IWorklogService worklogService)
     {
-        _logger = logger;
+        _worklogService = worklogService;
     }
 
-    [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
+
+    [HttpPost(Name = "WorklogDescriptionUpdater")]
+    public async Task<string> UpdateWorklogDescription(WorklogWebhook worklogWebhook)
     {
-        return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+        var updatedWorklog = await _worklogService.UpdateWorklogDescription(worklogWebhook);
+        return updatedWorklog.Description;
     }
 }

@@ -1,4 +1,4 @@
-namespace AIConnector.Core.DTOs;
+namespace AIConnector.Application.DTOs;
 
 public class WorklogWebhook
 {
