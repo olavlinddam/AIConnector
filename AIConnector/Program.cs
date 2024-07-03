@@ -1,7 +1,21 @@
 using AIConnector.Application.Startup;
 using AIConnector.Infrastructure.Startup;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Load configuration from appsettings.json
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
+
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(configuration)
+    .CreateLogger();
+
+// Use Serilog for logging
+builder.Host.UseSerilog();
 
 // Add services to the container.
 
@@ -11,10 +25,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
-
-
-
-
 
 var app = builder.Build();
 

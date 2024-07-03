@@ -1,0 +1,1 @@
+namespace AIConnector.Infrastructure.Exceptions;
